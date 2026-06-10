@@ -21,7 +21,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen flex text-white">
       {/* Sidebar */}
       <aside className="hidden lg:flex flex-col w-64 shrink-0 border-r border-white/5 px-5 py-6 sticky top-0 h-screen">
-        <Link to="/" className="flex items-center gap-2.5 mb-10">
+        <Link to="/dashboard" className="flex items-center gap-2.5 mb-10">
           <div className="relative">
             <div className="size-9 rounded-xl glass-ember flex items-center justify-center">
               <Radio className="size-4 text-[#ff6b00]" />
