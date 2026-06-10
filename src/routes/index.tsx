@@ -88,27 +88,25 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
-      {/* Train background — blends into page via masks */}
+      {/* Train background — black bg dropped via screen blend, only the train + ember light shows */}
       <div className="absolute inset-0 pointer-events-none">
         <img
           src={heroTrain}
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover opacity-90"
+          className="absolute inset-0 w-full h-full object-cover"
           style={{
-            maskImage:
-              "radial-gradient(ellipse 90% 75% at 50% 60%, #000 35%, transparent 85%)",
-            WebkitMaskImage:
-              "radial-gradient(ellipse 90% 75% at 50% 60%, #000 35%, transparent 85%)",
+            mixBlendMode: "screen",
+            objectPosition: "center 65%",
           }}
         />
         {/* Top fade so nav blends */}
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#050505] to-transparent" />
         {/* Bottom fade so next section blends */}
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent" />
-        {/* Text legibility scrim */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(5,5,5,0.55),transparent_70%)]" />
-        {/* Ambient glows */}
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#050505] via-[#050505]/90 to-transparent" />
+        {/* Text legibility scrim — darken behind the headline */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_50%_42%,rgba(5,5,5,0.7),transparent_75%)]" />
+        {/* Ambient ember glows */}
         <div className="absolute top-1/3 right-0 size-[600px] rounded-full bg-[#ff1e1e]/15 blur-[140px]" />
         <div className="absolute -bottom-40 left-0 size-[500px] rounded-full bg-[#ff6b00]/15 blur-[140px]" />
       </div>
