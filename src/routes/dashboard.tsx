@@ -16,7 +16,7 @@ import {
 import { AppShell, RiskBadge } from "@/components/AppShell";
 import { wagons } from "@/lib/railrisk-data";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
       { title: "RailRisk AI — Decision Intelligence Dashboard" },
