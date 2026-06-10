@@ -42,7 +42,6 @@ function Landing() {
     <div className="min-h-screen text-white overflow-x-clip">
       <Nav />
       <Hero />
-      <Logos />
       <Features />
       <FlowSection />
       <PreviewSection />
