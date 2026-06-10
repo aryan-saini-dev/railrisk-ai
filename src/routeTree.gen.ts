@@ -9,38 +9,81 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WagonsRouteImport } from './routes/wagons'
+import { Route as ReportRouteImport } from './routes/report'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WagonsIdRouteImport } from './routes/wagons.$id'
 
+const WagonsRoute = WagonsRouteImport.update({
+  id: '/wagons',
+  path: '/wagons',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WagonsIdRoute = WagonsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => WagonsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/report': typeof ReportRoute
+  '/wagons': typeof WagonsRouteWithChildren
+  '/wagons/$id': typeof WagonsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/report': typeof ReportRoute
+  '/wagons': typeof WagonsRouteWithChildren
+  '/wagons/$id': typeof WagonsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/report': typeof ReportRoute
+  '/wagons': typeof WagonsRouteWithChildren
+  '/wagons/$id': typeof WagonsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/report' | '/wagons' | '/wagons/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/report' | '/wagons' | '/wagons/$id'
+  id: '__root__' | '/' | '/report' | '/wagons' | '/wagons/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ReportRoute: typeof ReportRoute
+  WagonsRoute: typeof WagonsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wagons': {
+      id: '/wagons'
+      path: '/wagons'
+      fullPath: '/wagons'
+      preLoaderRoute: typeof WagonsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +91,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wagons/$id': {
+      id: '/wagons/$id'
+      path: '/$id'
+      fullPath: '/wagons/$id'
+      preLoaderRoute: typeof WagonsIdRouteImport
+      parentRoute: typeof WagonsRoute
+    }
   }
 }
 
+interface WagonsRouteChildren {
+  WagonsIdRoute: typeof WagonsIdRoute
+}
+
+const WagonsRouteChildren: WagonsRouteChildren = {
+  WagonsIdRoute: WagonsIdRoute,
+}
+
+const WagonsRouteWithChildren =
+  WagonsRoute._addFileChildren(WagonsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ReportRoute: ReportRoute,
+  WagonsRoute: WagonsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
