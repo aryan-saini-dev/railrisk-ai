@@ -10,7 +10,7 @@ import {
 import type { ReactNode } from "react";
 
 const nav = [
-  { to: "/", label: "Overview", icon: LayoutDashboard },
+  { to: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { to: "/wagons", label: "Delayed Wagons", icon: Train },
   { to: "/report", label: "RailRisk Report", icon: FileText },
 ];
