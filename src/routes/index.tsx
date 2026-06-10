@@ -104,8 +104,8 @@ function Hero() {
         <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-[#050505] to-transparent" />
         {/* Bottom fade — seamless transition to next section */}
         <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-transparent" />
-        {/* Text legibility scrim — darken behind headline only */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_38%,rgba(5,5,5,0.65),transparent_70%)]" />
+        {/* Text legibility scrim — darken behind headline */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_50%_at_50%_42%,rgba(5,5,5,0.85),transparent_75%)]" />
         {/* Ambient ember glows on top of image */}
         <div className="absolute top-1/4 -right-20 size-[500px] rounded-full bg-[#ff1e1e]/20 blur-[120px] mix-blend-screen" />
         <div className="absolute -bottom-20 -left-20 size-[400px] rounded-full bg-[#ff6b00]/15 blur-[120px] mix-blend-screen" />
