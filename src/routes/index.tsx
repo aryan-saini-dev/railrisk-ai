@@ -147,7 +147,6 @@ function Hero() {
     </section>
   );
 }
-}
 
 function Features() {
   const cards = [
