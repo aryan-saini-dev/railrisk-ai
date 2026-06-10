@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
   Brain,
-  Flame,
   Gauge,
   Layers,
   LogIn,
@@ -42,7 +41,6 @@ function Landing() {
     <div className="min-h-screen text-white overflow-x-clip">
       <Nav />
       <Hero />
-      <Logos />
       <Features />
       <FlowSection />
       <PreviewSection />
@@ -89,27 +87,46 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="relative">
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
+      {/* Train background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 right-0 size-[600px] rounded-full bg-[#ff1e1e]/20 blur-[120px]" />
-        <div className="absolute -bottom-40 left-0 size-[500px] rounded-full bg-[#ff6b00]/15 blur-[120px]" />
+        <img
+          src={heroTrain}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: "center 70%" }}
+        />
+        {/* Top fade — blends nav into image */}
+        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#050505] via-[#050505]/80 to-transparent" />
+        {/* Side fades — feathers edges into page */}
+        <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#050505] to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-[#050505] to-transparent" />
+        {/* Bottom fade — seamless transition to next section */}
+        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-transparent" />
+        {/* Text legibility scrim — darken behind headline */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_50%_at_50%_42%,rgba(5,5,5,0.85),transparent_75%)]" />
+        {/* Ambient ember glows on top of image */}
+        <div className="absolute top-1/4 -right-20 size-[500px] rounded-full bg-[#ff1e1e]/20 blur-[120px] mix-blend-screen" />
+        <div className="absolute -bottom-20 -left-20 size-[400px] rounded-full bg-[#ff6b00]/15 blur-[120px] mix-blend-screen" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-12 lg:pt-28 lg:pb-20 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-[11px] uppercase tracking-[0.2em] text-white/70 mb-7">
+      <div className="relative max-w-5xl mx-auto px-6 lg:px-10 py-32 text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-[11px] uppercase tracking-[0.2em] text-white/80 mb-7">
           <span className="size-1.5 rounded-full bg-[#ff1e1e] animate-pulse-ember" />
-          Live Risk Intelligence for Rail Freight
+          Decision Intelligence for Rail Freight
         </div>
 
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.02] max-w-4xl mx-auto">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.02]"
+            style={{ textShadow: "0 4px 40px rgba(0,0,0,0.6)" }}>
           Prioritise the delays
-          <br />
-          that <span className="text-ember">actually matter.</span>
+          <br className="hidden sm:block" />
+          {" "}that <span className="text-ember">actually matter.</span>
         </h1>
 
-        <p className="mt-6 text-base md:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-          RailRisk AI ranks every disrupted wagon by cargo criticality, downstream
-          impact, and backup capacity — so your team acts on what counts, not what arrived first.
+        <p className="mt-6 text-base md:text-lg text-white/75 max-w-2xl mx-auto leading-relaxed">
+          RailRisk AI ranks every disrupted wagon by cargo criticality and
+          downstream impact — so your team acts on what counts, not what arrived first.
         </p>
 
         <div className="mt-9 flex flex-wrap justify-center gap-3">
@@ -118,92 +135,10 @@ function Hero() {
           </Link>
           <a
             href="#features"
-            className="px-5 py-2.5 rounded-full text-sm font-semibold text-[#ff1e1e] border border-[#ff1e1e]/40 hover:bg-[#ff1e1e]/10 transition inline-flex items-center gap-2"
+            className="px-5 py-2.5 rounded-full text-sm font-semibold text-white/90 border border-white/20 hover:bg-white/5 transition inline-flex items-center gap-2"
           >
             See how it works
           </a>
-        </div>
-
-        {/* Hero image */}
-        <div className="mt-16 relative">
-          <div className="relative rounded-3xl overflow-hidden glass-ember">
-            <img
-              src={heroTrain}
-              alt="Futuristic freight train glowing with red ember light on rails"
-              width={1920}
-              height={1080}
-              className="w-full h-auto object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
-          </div>
-
-          {/* Floating stat cards */}
-          <FloatingStat
-            className="hidden md:flex absolute -left-4 lg:left-6 top-1/3"
-            icon={<Flame className="size-4 text-[#ff1e1e]" />}
-            label="Critical now"
-            value="3"
-            tint="from-[#ff1e1e]/40"
-          />
-          <FloatingStat
-            className="hidden md:flex absolute -right-4 lg:right-6 top-1/4"
-            icon={<TrendingUp className="size-4 text-[#ff6b00]" />}
-            label="Decisions / min"
-            value="148"
-            tint="from-[#ff6b00]/40"
-          />
-          <FloatingStat
-            className="hidden md:flex absolute right-10 bottom-10"
-            icon={<Timer className="size-4 text-[#ff6b00]" />}
-            label="Avg response"
-            value="-42%"
-            tint="from-[#ff6b00]/30"
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FloatingStat({
-  className,
-  icon,
-  label,
-  value,
-  tint,
-}: {
-  className?: string;
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  tint: string;
-}) {
-  return (
-    <div className={`glass rounded-2xl px-4 py-3 min-w-[170px] relative overflow-hidden ${className ?? ""}`}>
-      <div className={`absolute inset-x-0 -bottom-10 h-20 bg-gradient-to-t ${tint} to-transparent blur-2xl pointer-events-none`} />
-      <div className="relative">
-        <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-white/50">
-          {icon}
-          {label}
-        </div>
-        <div className="text-2xl font-bold tabular-nums mt-1">{value}</div>
-      </div>
-    </div>
-  );
-}
-
-function Logos() {
-  const items = ["DB Cargo", "SNCF Fret", "PKP LHS", "Rail Baltica", "ÖBB RCG", "Lineas"];
-  return (
-    <section className="border-y border-white/5 py-8">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <p className="text-center text-[11px] uppercase tracking-[0.22em] text-white/40 mb-5">
-          Trusted by freight operators across Europe
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-white/40 text-sm font-semibold">
-          {items.map((i) => (
-            <span key={i} className="hover:text-white/70 transition">{i}</span>
-          ))}
         </div>
       </div>
     </section>
