@@ -1,417 +1,505 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  AlertOctagon,
   ArrowUpRight,
-  Boxes,
   Brain,
-  ChevronRight,
   Flame,
   Gauge,
   Layers,
+  LogIn,
+  Radio,
   Route as RouteIcon,
+  ShieldAlert,
+  Sparkles,
   Timer,
   TrendingUp,
   Zap,
 } from "lucide-react";
-import { AppShell, RiskBadge } from "@/components/AppShell";
-import { wagons } from "@/lib/railrisk-data";
+import heroTrain from "@/assets/hero-train.jpg";
+import networkMap from "@/assets/network-map.jpg";
+import cargoWagon from "@/assets/cargo-wagon.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "RailRisk AI — Decision Intelligence Dashboard" },
+      { title: "RailRisk AI — Prioritise the delays that actually matter" },
       {
         name: "description",
         content:
-          "Live risk intelligence for rail freight. Prioritize dangerous delays, not just track them.",
+          "Decision intelligence for rail freight. RailRisk AI ranks disruptions by cargo criticality and downstream impact — not by arrival time.",
+      },
+      { property: "og:title", content: "RailRisk AI" },
+      {
+        property: "og:description",
+        content: "Prioritise dangerous rail freight delays in real time.",
       },
     ],
   }),
-  component: Overview,
+  component: Landing,
 });
 
-function Overview() {
-  const critical = wagons.filter((w) => w.risk === "Critical").length;
-  const high = wagons.filter((w) => w.risk === "High").length;
-  const totalDelayed = wagons.length;
-  const pendingActions = wagons.filter((w) => w.actionStatus === "Pending").length;
-  const topRisks = [...wagons].sort((a, b) => b.criticalityScore - a.criticalityScore).slice(0, 4);
+function Landing() {
+  return (
+    <div className="min-h-screen text-white overflow-x-clip">
+      <Nav />
+      <Hero />
+      <Logos />
+      <Features />
+      <FlowSection />
+      <PreviewSection />
+      <CTA />
+      <Footer />
+    </div>
+  );
+}
+
+function Nav() {
+  return (
+    <header className="sticky top-0 z-40 backdrop-blur-xl bg-black/30 border-b border-white/5">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="size-9 rounded-xl glass-ember flex items-center justify-center">
+            <Radio className="size-4 text-[#ff6b00]" />
+          </div>
+          <div className="leading-tight">
+            <div className="font-bold tracking-tight">
+              RailRisk<span className="text-ember"> AI</span>
+            </div>
+          </div>
+        </Link>
+        <nav className="hidden md:flex items-center gap-8 text-sm text-white/70">
+          <a href="#features" className="hover:text-white transition">Features</a>
+          <a href="#flow" className="hover:text-white transition">How it works</a>
+          <a href="#preview" className="hover:text-white transition">Platform</a>
+        </nav>
+        <div className="flex items-center gap-3">
+          <Link
+            to="/login"
+            className="hidden sm:inline-flex items-center gap-1.5 text-sm text-white/70 hover:text-white transition"
+          >
+            <LogIn className="size-4" /> Sign in
+          </Link>
+          <Link to="/login" className="btn-ember text-sm hover:scale-105 transition-transform">
+            Launch platform <ArrowUpRight className="size-4" />
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="relative">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 right-0 size-[600px] rounded-full bg-[#ff1e1e]/20 blur-[120px]" />
+        <div className="absolute -bottom-40 left-0 size-[500px] rounded-full bg-[#ff6b00]/15 blur-[120px]" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-12 lg:pt-28 lg:pb-20 text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass text-[11px] uppercase tracking-[0.2em] text-white/70 mb-7">
+          <span className="size-1.5 rounded-full bg-[#ff1e1e] animate-pulse-ember" />
+          Live Risk Intelligence for Rail Freight
+        </div>
+
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.02] max-w-4xl mx-auto">
+          Prioritise the delays
+          <br />
+          that <span className="text-ember">actually matter.</span>
+        </h1>
+
+        <p className="mt-6 text-base md:text-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
+          RailRisk AI ranks every disrupted wagon by cargo criticality, downstream
+          impact, and backup capacity — so your team acts on what counts, not what arrived first.
+        </p>
+
+        <div className="mt-9 flex flex-wrap justify-center gap-3">
+          <Link to="/login" className="btn-ember hover:scale-105 transition-transform">
+            Launch platform <ArrowUpRight className="size-4" />
+          </Link>
+          <a
+            href="#features"
+            className="px-5 py-2.5 rounded-full text-sm font-semibold text-[#ff1e1e] border border-[#ff1e1e]/40 hover:bg-[#ff1e1e]/10 transition inline-flex items-center gap-2"
+          >
+            See how it works
+          </a>
+        </div>
+
+        {/* Hero image */}
+        <div className="mt-16 relative">
+          <div className="relative rounded-3xl overflow-hidden glass-ember">
+            <img
+              src={heroTrain}
+              alt="Futuristic freight train glowing with red ember light on rails"
+              width={1920}
+              height={1080}
+              className="w-full h-auto object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
+          </div>
+
+          {/* Floating stat cards */}
+          <FloatingStat
+            className="hidden md:flex absolute -left-4 lg:left-6 top-1/3"
+            icon={<Flame className="size-4 text-[#ff1e1e]" />}
+            label="Critical now"
+            value="3"
+            tint="from-[#ff1e1e]/40"
+          />
+          <FloatingStat
+            className="hidden md:flex absolute -right-4 lg:right-6 top-1/4"
+            icon={<TrendingUp className="size-4 text-[#ff6b00]" />}
+            label="Decisions / min"
+            value="148"
+            tint="from-[#ff6b00]/40"
+          />
+          <FloatingStat
+            className="hidden md:flex absolute right-10 bottom-10"
+            icon={<Timer className="size-4 text-[#ff6b00]" />}
+            label="Avg response"
+            value="-42%"
+            tint="from-[#ff6b00]/30"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FloatingStat({
+  className,
+  icon,
+  label,
+  value,
+  tint,
+}: {
+  className?: string;
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  tint: string;
+}) {
+  return (
+    <div className={`glass rounded-2xl px-4 py-3 min-w-[170px] relative overflow-hidden ${className ?? ""}`}>
+      <div className={`absolute inset-x-0 -bottom-10 h-20 bg-gradient-to-t ${tint} to-transparent blur-2xl pointer-events-none`} />
+      <div className="relative">
+        <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-white/50">
+          {icon}
+          {label}
+        </div>
+        <div className="text-2xl font-bold tabular-nums mt-1">{value}</div>
+      </div>
+    </div>
+  );
+}
+
+function Logos() {
+  const items = ["DB Cargo", "SNCF Fret", "PKP LHS", "Rail Baltica", "ÖBB RCG", "Lineas"];
+  return (
+    <section className="border-y border-white/5 py-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <p className="text-center text-[11px] uppercase tracking-[0.22em] text-white/40 mb-5">
+          Trusted by freight operators across Europe
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-white/40 text-sm font-semibold">
+          {items.map((i) => (
+            <span key={i} className="hover:text-white/70 transition">{i}</span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Features() {
+  const cards = [
+    {
+      icon: <ShieldAlert className="size-5" />,
+      title: "Cargo Criticality",
+      desc: "Medical, fuel, and time-bound cargo are flagged the moment risk crosses threshold.",
+      cta: "See scoring",
+    },
+    {
+      icon: <Gauge className="size-5" />,
+      title: "Downstream Impact",
+      desc: "Model the cascade — installations missed, backup capacity, customer SLAs.",
+      cta: "See modeling",
+    },
+    {
+      icon: <Zap className="size-5" />,
+      title: "Action Recommendations",
+      desc: "Concrete dispatch and reroute moves your controllers can approve in one click.",
+      cta: "See actions",
+    },
+  ];
 
   return (
-    <AppShell>
-      {/* Hero / situation banner */}
-      <section className="glass-ember rounded-3xl p-8 lg:p-10 mb-8 relative overflow-hidden">
-        <div className="absolute -top-32 -right-32 size-96 rounded-full bg-[#ff1e1e]/30 blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -left-20 size-80 rounded-full bg-[#ff6b00]/20 blur-3xl pointer-events-none" />
-        <div className="relative flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[11px] uppercase tracking-[0.2em] text-white/70 mb-5">
-              <span className="size-1.5 rounded-full bg-[#ff1e1e] animate-pulse-ember" />
-              Live Risk Intelligence
-            </div>
-            <h1 className="text-4xl lg:text-5xl font-bold leading-[1.05]">
-              Situation: <span className="text-ember">3 critical disruptions</span> require
-              immediate action.
-            </h1>
-            <p className="mt-4 text-white/60 max-w-xl">
-              RailRisk AI is reprioritising delays in real time based on cargo criticality,
-              downstream impact, and backup capacity.
-            </p>
+    <section id="features" className="py-24 relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="max-w-2xl mb-14">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[11px] uppercase tracking-[0.2em] text-white/70 mb-5">
+            <Sparkles className="size-3 text-[#ff6b00]" /> The platform
           </div>
-          <div className="flex gap-3 shrink-0">
-            <Link to="/wagons" className="btn-ember text-sm">
-              View priority queue <ArrowUpRight className="size-4" />
-            </Link>
-            <Link
-              to="/report"
-              className="px-5 py-2.5 rounded-full text-sm font-semibold text-[#ff1e1e] border border-[#ff1e1e]/40 hover:bg-[#ff1e1e]/10 transition"
-            >
-              Generate report
-            </Link>
-          </div>
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+            Three layers of intelligence,
+            <br />
+            <span className="text-ember">one decisive view.</span>
+          </h2>
+          <p className="mt-4 text-white/60 max-w-xl">
+            Stop staring at delay tables. Start operating on a live, ranked queue of disruptions
+            that already knows what's at stake.
+          </p>
         </div>
-      </section>
 
-      {/* Stat grid */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-        <StatCard
-          icon={<Boxes className="size-5" />}
-          label="Delayed Wagons"
-          value={totalDelayed}
-          trend="+2 vs last hour"
-          tone="neutral"
-        />
-        <StatCard
-          icon={<AlertOctagon className="size-5" />}
-          label="Critical Alerts"
-          value={critical}
-          trend="Escalated"
-          tone="critical"
-        />
-        <StatCard
-          icon={<Flame className="size-5" />}
-          label="High-Risk Cargo"
-          value={high + critical}
-          trend="Medical · Fuel"
-          tone="high"
-        />
-        <StatCard
-          icon={<Timer className="size-5" />}
-          label="Pending Actions"
-          value={pendingActions}
-          trend="Awaiting dispatch"
-          tone="warn"
-        />
-      </section>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {cards.map((c) => (
+            <FeatureCard key={c.title} {...c} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-      {/* Two-column: priority queue + agents */}
-      <section className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-10">
-        <div className="xl:col-span-2 glass rounded-3xl p-6">
-          <div className="flex items-center justify-between mb-5">
-            <div>
-              <h2 className="text-lg font-bold">Priority Risk Queue</h2>
-              <p className="text-xs text-white/50 mt-1">
-                Reordered live by criticality score, not arrival time.
-              </p>
-            </div>
-            <Link
-              to="/wagons"
-              className="text-xs text-white/60 hover:text-white inline-flex items-center gap-1"
-            >
-              All wagons <ChevronRight className="size-3.5" />
-            </Link>
+function FeatureCard({
+  icon,
+  title,
+  desc,
+  cta,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  cta: string;
+}) {
+  return (
+    <div className="group glass rounded-3xl p-6 relative overflow-hidden h-[340px] flex flex-col">
+      <div className="absolute inset-x-0 -bottom-32 h-64 bg-gradient-to-t from-[#ff1e1e]/40 via-[#ff6b00]/15 to-transparent blur-3xl pointer-events-none opacity-70 group-hover:opacity-100 transition" />
+      <div className="relative flex-1 flex flex-col">
+        <div className="size-11 rounded-xl glass-ember flex items-center justify-center text-[#ff6b00] mb-5">
+          {icon}
+        </div>
+        <h3 className="text-2xl font-bold">{title}</h3>
+        <p className="mt-3 text-sm text-white/60 leading-relaxed flex-1">{desc}</p>
+        <div className="text-sm font-semibold text-white inline-flex items-center gap-1.5 mt-5">
+          {cta} <ArrowUpRight className="size-3.5" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FlowSection() {
+  const steps = [
+    {
+      icon: <Timer className="size-4" />,
+      name: "Delay Detection",
+      desc: "Scan 140+ trains in real time across the network.",
+    },
+    {
+      icon: <Layers className="size-4" />,
+      name: "Cargo Criticality",
+      desc: "Flag medical, fuel, and SLA-bound cargo first.",
+      hot: true,
+    },
+    {
+      icon: <TrendingUp className="size-4" />,
+      name: "Impact Prediction",
+      desc: "Model downstream cascade and backup capacity.",
+    },
+    {
+      icon: <Zap className="size-4" />,
+      name: "Action Recommendation",
+      desc: "Dispatch the right move — reroute, escalate, or hold.",
+    },
+  ];
+
+  return (
+    <section id="flow" className="py-24 relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[11px] uppercase tracking-[0.2em] text-white/70 mb-5">
+            <Brain className="size-3 text-[#ff6b00]" /> Agent stack
           </div>
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+            Four decision agents,
+            <br />
+            <span className="text-ember">always running.</span>
+          </h2>
+          <p className="mt-4 text-white/60 max-w-md">
+            Each agent owns a layer of the decision. Together they turn raw GPS pings and
+            cargo manifests into a ranked, justified action list.
+          </p>
 
-          <div className="flex flex-col gap-3">
-            {topRisks.map((w) => (
-              <Link
-                key={w.id}
-                to="/wagons/$id"
-                params={{ id: w.id }}
-                className="group glass rounded-2xl p-4 flex items-center gap-4 hover:bg-white/5 transition relative overflow-hidden"
-              >
-                {w.risk === "Critical" && (
-                  <span className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-[#ff6b00] to-[#ff1e1e] ember-glow-sm" />
+          <div className="mt-9 flex flex-col gap-3 max-w-md">
+            {steps.map((s, i) => (
+              <div key={s.name} className="flex flex-col">
+                <div
+                  className={`glass rounded-2xl p-3.5 flex items-center gap-3 ${
+                    s.hot ? "ember-glow-sm border-[#ff1e1e]/30" : ""
+                  }`}
+                >
+                  <div
+                    className={`size-9 rounded-lg flex items-center justify-center ${
+                      s.hot
+                        ? "bg-gradient-to-br from-[#ff1e1e] to-[#ff6b00] text-white"
+                        : "glass text-[#ff6b00]"
+                    }`}
+                  >
+                    {s.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold">{s.name}</div>
+                    <div className="text-[11px] text-white/50 truncate">{s.desc}</div>
+                  </div>
+                  <div className="text-[10px] text-white/40 tabular-nums">0{i + 1}</div>
+                </div>
+                {i < steps.length - 1 && (
+                  <svg viewBox="0 0 100 16" className="h-4 w-12 ml-4" preserveAspectRatio="none">
+                    <line
+                      x1="50"
+                      y1="0"
+                      x2="50"
+                      y2="16"
+                      stroke="#ff1e1e"
+                      strokeWidth="2"
+                      className="flow-line"
+                    />
+                  </svg>
                 )}
-                <div className="shrink-0 size-12 rounded-xl glass-ember flex items-center justify-center text-sm font-bold">
-                  {w.id}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-semibold text-sm">{w.cargo}</span>
-                    <RiskBadge level={w.risk} />
-                  </div>
-                  <div className="text-xs text-white/50 mt-1 flex items-center gap-3 flex-wrap">
-                    <span className="inline-flex items-center gap-1">
-                      <RouteIcon className="size-3" /> {w.route}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <Timer className="size-3" /> {w.delayHours}h delay
-                    </span>
-                    <span>→ {w.receiver}</span>
-                  </div>
-                </div>
-                <CriticalityMeter score={w.criticalityScore} />
-                <ChevronRight className="size-4 text-white/40 group-hover:text-white transition" />
-              </Link>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Agent stack */}
-        <div className="glass rounded-3xl p-6">
-          <div className="flex items-center gap-2 mb-1">
-            <Brain className="size-4 text-[#ff6b00]" />
-            <h2 className="text-lg font-bold">Agent Stack</h2>
-          </div>
-          <p className="text-xs text-white/50 mb-5">Four decision layers running in parallel.</p>
-
-          <div className="flex flex-col gap-3 relative">
-            <AgentNode
-              icon={<Timer className="size-4" />}
-              name="Delay Detection"
-              status="Scanning 142 trains"
-              load={72}
+        <div className="relative">
+          <div className="absolute -inset-6 bg-[#ff1e1e]/15 blur-3xl rounded-full pointer-events-none" />
+          <div className="relative rounded-3xl overflow-hidden glass-ember">
+            <img
+              src={networkMap}
+              alt="Isometric rail network with glowing cargo wagons and floating data overlays"
+              width={1024}
+              height={1024}
+              loading="lazy"
+              className="w-full h-auto object-cover"
             />
-            <FlowConnector />
-            <AgentNode
-              icon={<Layers className="size-4" />}
-              name="Cargo Criticality"
-              status="3 medical, 1 fuel flagged"
-              load={88}
-              hot
-            />
-            <FlowConnector />
-            <AgentNode
-              icon={<TrendingUp className="size-4" />}
-              name="Impact Prediction"
-              status="Modeling downstream"
-              load={61}
-            />
-            <FlowConnector />
-            <AgentNode
-              icon={<Zap className="size-4" />}
-              name="Action Recommendation"
-              status="2 actions dispatched"
-              load={49}
-            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#050505]/60 via-transparent to-transparent" />
           </div>
         </div>
-      </section>
-
-      {/* Risk distribution / escalation */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass rounded-3xl p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Gauge className="size-4 text-[#ff6b00]" />
-            <h3 className="font-bold">Risk Distribution</h3>
-          </div>
-          <RiskDistribution />
-        </div>
-        <div className="glass rounded-3xl p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <Flame className="size-4 text-[#ff1e1e]" />
-            <h3 className="font-bold">Live Escalation Feed</h3>
-          </div>
-          <ul className="flex flex-col gap-3 text-sm">
-            <FeedItem
-              tone="critical"
-              time="2 min ago"
-              text="W-08 escalated Medium → Critical. Oxygen backup window breached."
-            />
-            <FeedItem
-              tone="high"
-              time="11 min ago"
-              text="W-29 risk increased to High. ICU install scheduled in 18h."
-            />
-            <FeedItem
-              tone="warn"
-              time="24 min ago"
-              text="W-12 cold-chain temperature trending toward threshold."
-            />
-            <FeedItem
-              tone="ok"
-              time="38 min ago"
-              text="W-17 confirmed within tolerance. No action required."
-            />
-          </ul>
-        </div>
-      </section>
-    </AppShell>
+      </div>
+    </section>
   );
 }
 
-function StatCard({
-  icon,
-  label,
-  value,
-  trend,
-  tone,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: number;
-  trend: string;
-  tone: "neutral" | "warn" | "high" | "critical";
-}) {
-  const toneRing =
-    tone === "critical"
-      ? "from-[#ff1e1e]/40 to-[#ff6b00]/20"
-      : tone === "high"
-        ? "from-orange-500/30 to-[#ff1e1e]/10"
-        : tone === "warn"
-          ? "from-amber-400/20 to-transparent"
-          : "from-white/10 to-transparent";
+function PreviewSection() {
   return (
-    <div className="glass rounded-2xl p-5 relative overflow-hidden">
-      <div
-        className={`absolute inset-x-0 -bottom-12 h-24 bg-gradient-to-t ${toneRing} blur-2xl pointer-events-none`}
-      />
-      <div className="relative">
-        <div className="flex items-center justify-between mb-3 text-white/60">
-          <span className="text-[11px] uppercase tracking-wider">{label}</span>
-          <span className="text-[#ff6b00]">{icon}</span>
-        </div>
-        <div className="text-4xl font-bold tabular-nums">
-          {tone === "critical" ? <span className="text-ember">{value}</span> : value}
-        </div>
-        <div className="text-[11px] text-white/40 mt-2 uppercase tracking-wider">{trend}</div>
-      </div>
-    </div>
-  );
-}
-
-function CriticalityMeter({ score }: { score: number }) {
-  return (
-    <div className="hidden sm:flex flex-col items-end gap-1 w-32 shrink-0">
-      <div className="text-[10px] uppercase tracking-wider text-white/40">Criticality</div>
-      <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ff1e1e]"
-          style={{ width: `${score}%`, boxShadow: "0 0 12px rgba(255,30,30,0.6)" }}
-        />
-      </div>
-      <div className="text-xs font-semibold tabular-nums text-white/80">{score}</div>
-    </div>
-  );
-}
-
-function AgentNode({
-  icon,
-  name,
-  status,
-  load,
-  hot,
-}: {
-  icon: React.ReactNode;
-  name: string;
-  status: string;
-  load: number;
-  hot?: boolean;
-}) {
-  return (
-    <div
-      className={`glass rounded-2xl p-3.5 flex items-center gap-3 ${hot ? "ember-glow-sm border-[#ff1e1e]/30" : ""}`}
-    >
-      <div
-        className={`size-9 rounded-lg flex items-center justify-center ${hot ? "bg-gradient-to-br from-[#ff1e1e] to-[#ff6b00] text-white" : "glass text-[#ff6b00]"}`}
-      >
-        {icon}
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-sm font-semibold">{name}</div>
-        <div className="text-[11px] text-white/50 truncate">{status}</div>
-      </div>
-      <div className="text-right">
-        <div className="text-[10px] text-white/40 uppercase tracking-wider">Load</div>
-        <div className="text-xs font-bold tabular-nums">{load}%</div>
-      </div>
-    </div>
-  );
-}
-
-function FlowConnector() {
-  return (
-    <svg viewBox="0 0 100 16" className="h-4 w-full overflow-visible" preserveAspectRatio="none">
-      <line
-        x1="50"
-        y1="0"
-        x2="50"
-        y2="16"
-        stroke="#ff1e1e"
-        strokeWidth="2"
-        className="flow-line"
-      />
-    </svg>
-  );
-}
-
-function RiskDistribution() {
-  const buckets = [
-    { label: "Critical", count: 1, color: "#ff1e1e", pct: 14 },
-    { label: "High", count: 3, color: "#ff6b00", pct: 43 },
-    { label: "Medium", count: 1, color: "#f59e0b", pct: 14 },
-    { label: "Low", count: 2, color: "#10b981", pct: 29 },
-  ];
-  return (
-    <div className="space-y-4">
-      <div className="flex h-3 rounded-full overflow-hidden bg-white/5">
-        {buckets.map((b) => (
-          <div
-            key={b.label}
-            style={{
-              width: `${b.pct}%`,
-              background: b.color,
-              boxShadow:
-                b.label === "Critical" || b.label === "High"
-                  ? `0 0 12px ${b.color}aa`
-                  : undefined,
-            }}
-          />
-        ))}
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {buckets.map((b) => (
-          <div key={b.label} className="flex items-center justify-between glass rounded-xl px-3 py-2">
-            <div className="flex items-center gap-2">
-              <span
-                className="size-2 rounded-full"
-                style={{ background: b.color, boxShadow: `0 0 8px ${b.color}` }}
+    <section id="preview" className="py-24 relative">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+          <div className="lg:col-span-2 order-2 lg:order-1 relative">
+            <div className="absolute -inset-8 bg-[#ff6b00]/15 blur-3xl rounded-full pointer-events-none" />
+            <div className="relative rounded-3xl overflow-hidden glass-ember">
+              <img
+                src={cargoWagon}
+                alt="Cargo wagon glowing with internal ember light"
+                width={1024}
+                height={1024}
+                loading="lazy"
+                className="w-full h-auto object-cover"
               />
-              <span className="text-sm text-white/80">{b.label}</span>
             </div>
-            <span className="text-sm font-bold tabular-nums">{b.count}</span>
           </div>
-        ))}
+
+          <div className="lg:col-span-3 order-1 lg:order-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass text-[11px] uppercase tracking-[0.2em] text-white/70 mb-5">
+              <RouteIcon className="size-3 text-[#ff6b00]" /> Live platform
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+              Every wagon, scored.
+              <br />
+              <span className="text-ember">Every minute.</span>
+            </h2>
+            <p className="mt-4 text-white/60 max-w-lg">
+              Walk into a control room and see a single ranked queue — not 1,400 lines of
+              delay data. Drill into any wagon for the why behind its score.
+            </p>
+
+            <div className="mt-8 grid grid-cols-2 gap-3 max-w-lg">
+              <MiniStat label="Wagons monitored" value="1,420" />
+              <MiniStat label="Avg time-to-decision" value="38s" hot />
+              <MiniStat label="Critical SLAs saved" value="92%" />
+              <MiniStat label="False alerts" value="-67%" />
+            </div>
+
+            <div className="mt-8">
+              <Link to="/login" className="btn-ember hover:scale-105 transition-transform">
+                Open the dashboard <ArrowUpRight className="size-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MiniStat({ label, value, hot }: { label: string; value: string; hot?: boolean }) {
+  return (
+    <div className={`glass rounded-2xl p-4 ${hot ? "ember-glow-sm" : ""}`}>
+      <div className="text-[10px] uppercase tracking-[0.18em] text-white/50">{label}</div>
+      <div className={`text-2xl font-bold tabular-nums mt-1 ${hot ? "text-ember" : ""}`}>
+        {value}
       </div>
     </div>
   );
 }
 
-function FeedItem({
-  tone,
-  time,
-  text,
-}: {
-  tone: "critical" | "high" | "warn" | "ok";
-  time: string;
-  text: string;
-}) {
-  const dot =
-    tone === "critical"
-      ? "bg-[#ff1e1e] animate-pulse-ember"
-      : tone === "high"
-        ? "bg-orange-400"
-        : tone === "warn"
-          ? "bg-amber-400"
-          : "bg-emerald-400";
+function CTA() {
   return (
-    <li className="flex gap-3">
-      <span className={`mt-1.5 size-2 rounded-full shrink-0 ${dot}`} />
-      <div className="flex-1">
-        <p className="text-white/85 leading-snug">{text}</p>
-        <p className="text-[11px] text-white/40 mt-0.5">{time}</p>
+    <section className="py-24 relative">
+      <div className="max-w-5xl mx-auto px-6 lg:px-10">
+        <div className="glass-ember rounded-3xl p-10 lg:p-16 text-center relative overflow-hidden">
+          <div className="absolute -top-32 -right-32 size-96 rounded-full bg-[#ff1e1e]/30 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-32 -left-20 size-80 rounded-full bg-[#ff6b00]/25 blur-3xl pointer-events-none" />
+          <div className="relative">
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight max-w-2xl mx-auto">
+              Stop tracking delays.
+              <br />
+              <span className="text-ember">Start ranking them.</span>
+            </h2>
+            <p className="mt-5 text-white/70 max-w-xl mx-auto">
+              Spin up RailRisk AI on your network in days, not quarters. No rip-and-replace,
+              no schema gymnastics.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Link to="/login" className="btn-ember hover:scale-105 transition-transform">
+                Launch platform <ArrowUpRight className="size-4" />
+              </Link>
+              <a
+                href="#features"
+                className="px-5 py-2.5 rounded-full text-sm font-semibold text-white/80 border border-white/20 hover:bg-white/5 transition"
+              >
+                Talk to the team
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-    </li>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-white/5 py-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/40">
+        <div className="flex items-center gap-2.5">
+          <div className="size-7 rounded-lg glass-ember flex items-center justify-center">
+            <Radio className="size-3.5 text-[#ff6b00]" />
+          </div>
+          <span>RailRisk AI · Decision Intelligence for Rail Freight</span>
+        </div>
+        <div>© {new Date().getFullYear()} RailRisk AI. All rights reserved.</div>
+      </div>
+    </footer>
   );
 }
