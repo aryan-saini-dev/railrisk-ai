@@ -88,27 +88,27 @@ function Nav() {
 function Hero() {
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
-      {/* Train background — black bg dropped via screen blend, only the train + ember light shows */}
+      {/* Train background */}
       <div className="absolute inset-0 pointer-events-none">
         <img
           src={heroTrain}
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            mixBlendMode: "screen",
-            objectPosition: "center 65%",
-          }}
+          style={{ objectPosition: "center 70%" }}
         />
-        {/* Top fade so nav blends */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#050505] to-transparent" />
-        {/* Bottom fade so next section blends */}
-        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-[#050505] via-[#050505]/90 to-transparent" />
-        {/* Text legibility scrim — darken behind the headline */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_55%_45%_at_50%_42%,rgba(5,5,5,0.7),transparent_75%)]" />
-        {/* Ambient ember glows */}
-        <div className="absolute top-1/3 right-0 size-[600px] rounded-full bg-[#ff1e1e]/15 blur-[140px]" />
-        <div className="absolute -bottom-40 left-0 size-[500px] rounded-full bg-[#ff6b00]/15 blur-[140px]" />
+        {/* Top fade — blends nav into image */}
+        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#050505] via-[#050505]/80 to-transparent" />
+        {/* Side fades — feathers edges into page */}
+        <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#050505] to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-[#050505] to-transparent" />
+        {/* Bottom fade — seamless transition to next section */}
+        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-transparent" />
+        {/* Text legibility scrim — darken behind headline only */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_40%_at_50%_38%,rgba(5,5,5,0.65),transparent_70%)]" />
+        {/* Ambient ember glows on top of image */}
+        <div className="absolute top-1/4 -right-20 size-[500px] rounded-full bg-[#ff1e1e]/20 blur-[120px] mix-blend-screen" />
+        <div className="absolute -bottom-20 -left-20 size-[400px] rounded-full bg-[#ff6b00]/15 blur-[120px] mix-blend-screen" />
       </div>
 
       <div className="relative max-w-5xl mx-auto px-6 lg:px-10 py-32 text-center">
