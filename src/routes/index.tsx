@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
   Brain,
-  Flame,
   Gauge,
   Layers,
   LogIn,
