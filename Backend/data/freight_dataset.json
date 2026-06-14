@@ -1,0 +1,92 @@
+[
+  {
+    "id": "FRT-1001",
+    "cargo_type": "Liquid Oxygen",
+    "destination": "City Hospital Complex",
+    "delay_time_hours": 4.5,
+    "urgency_level": "Critical",
+    "dependency_type": "Healthcare",
+    "downstream_impact": "Potential shortage in ICU life-support systems."
+  },
+  {
+    "id": "FRT-1002",
+    "cargo_type": "Vaccines and Medicine",
+    "destination": "Regional Distribution Hub",
+    "delay_time_hours": 12.0,
+    "urgency_level": "Critical",
+    "dependency_type": "Healthcare",
+    "downstream_impact": "Spoilage risk if temperature control fails; delays in regional clinic supplies."
+  },
+  {
+    "id": "FRT-1003",
+    "cargo_type": "Jet Fuel",
+    "destination": "International Airport",
+    "delay_time_hours": 6.0,
+    "urgency_level": "High",
+    "dependency_type": "Transportation",
+    "downstream_impact": "Flight delays and cancellations if reserve fuel levels drop."
+  },
+  {
+    "id": "FRT-1004",
+    "cargo_type": "Perishable Food (Produce)",
+    "destination": "Metro Supermarket Chain",
+    "delay_time_hours": 18.0,
+    "urgency_level": "Medium",
+    "dependency_type": "Retail/Food Supply",
+    "downstream_impact": "Spoilage of fresh produce and retail stockouts."
+  },
+  {
+    "id": "FRT-1005",
+    "cargo_type": "Coal",
+    "destination": "Thermal Power Plant Alpha",
+    "delay_time_hours": 24.0,
+    "urgency_level": "High",
+    "dependency_type": "Power Grid",
+    "downstream_impact": "Risk of power grid instability if plant coal reserves fall below 48 hours."
+  },
+  {
+    "id": "FRT-1006",
+    "cargo_type": "Raw Steel",
+    "destination": "Automotive Manufacturing Plant",
+    "delay_time_hours": 36.0,
+    "urgency_level": "Medium",
+    "dependency_type": "Manufacturing",
+    "downstream_impact": "Assembly line halt leading to $2M/day loss."
+  },
+  {
+    "id": "FRT-1007",
+    "cargo_type": "Consumer Electronics",
+    "destination": "National E-commerce Warehouse",
+    "delay_time_hours": 48.0,
+    "urgency_level": "Low",
+    "dependency_type": "Retail",
+    "downstream_impact": "Delayed customer deliveries; no critical infrastructure impact."
+  },
+  {
+    "id": "FRT-1008",
+    "cargo_type": "Industrial Chemicals",
+    "destination": "Water Treatment Facility",
+    "delay_time_hours": 8.0,
+    "urgency_level": "High",
+    "dependency_type": "Public Utilities",
+    "downstream_impact": "Risk to municipal water purification process."
+  },
+  {
+    "id": "FRT-1009",
+    "cargo_type": "Grain and Wheat",
+    "destination": "Food Processing Plant",
+    "delay_time_hours": 14.0,
+    "urgency_level": "Medium",
+    "dependency_type": "Food Supply",
+    "downstream_impact": "Production schedule adjustments required."
+  },
+  {
+    "id": "FRT-1010",
+    "cargo_type": "Apparel and Clothing",
+    "destination": "Downtown Retail Stores",
+    "delay_time_hours": 72.0,
+    "urgency_level": "Low",
+    "dependency_type": "Retail",
+    "downstream_impact": "Minimal impact; seasonal stock arrival delayed."
+  }
+]
