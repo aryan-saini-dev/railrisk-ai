@@ -192,11 +192,11 @@ RailRisk AI is a risk intelligence tool — it estimates criticality, flags high
 
 | Name | Role |
 | :--- | :--- |
-| **Ekta** | Strategy, problem framing, content, team alignment |
-| **Devang** | Readme, deployment |
-| **Aryan** | Full Stack: Frontend architecture (TanStack), UI/UX, Backend, LangChain agents, ML integration, API |
-| **Piyush** | Pitch, storytelling, final presentation |
-| **Mannu** | Coordination, testing, submission |
+| **Ekta** | Strategy, Problem Framing, Content, Team alignment |
+| **Devang** | Readme, Deployment, ML integration, API |
+| **Aryan** | Full Stack: Frontend Architecture , UI/UX, Backend, LangChain agents |
+| **Piyush** | Pitch, storytelling, Final Presentation |
+| **Mannu** | Coordination, Testing, Submission |
 
 > *A delayed wagon carrying steel is an inconvenience.*
 > *A delayed wagon carrying oxygen is a life-or-death decision.*
